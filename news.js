@@ -17,15 +17,18 @@ const displayCategory =categorys=>{
     });
     
 }
- 
+
+
 const allNews= async(categoryId)=>{
     // console.log(categoryId)
     const url1 = `https://openapi.programming-hero.com/api/news/category/${categoryId?categoryId:'no news found'}`
     const res = await fetch(url1);
     const data = await res.json();
     displayNews(data.data);
+    // console.log(data.data)
     
 }
+
 const displayNews = (arrayDatas) =>{
     // console.log(arrayDatas)
     const myNewsContainer = document.getElementById('allNewsContainer')
@@ -44,7 +47,7 @@ const displayNews = (arrayDatas) =>{
             <p class="card-text " >${singalData.details.slice(0,300)}</p>
             <div class="card-text d-grid gap-2 d-flex  justify-content-evenly align-items-center">
             <span class="text-muted"><img src="${singalData.author? singalData.author.img : 'no author found'}" alt="" class="rounded-circle img-fluid   small"> <p>${singalData.author.name? singalData.author.name :'author name not found'}</p></span> 
-            <div class = 'view'><span><i class="fa-light fa-eye"></i>${singalData.total_view? singalData.total_view :'view not found'}</span> </div>
+            <div class = 'view'><span>view:${singalData.total_view? singalData.total_view :'view not found'}</span> </div>
           
             <button onclick='opneModals("${singalData._id}")' type="button" class="btn btn-primary   d-flex justify-content-md-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Details
@@ -63,45 +66,34 @@ const displayNews = (arrayDatas) =>{
     })
     
 }
+// const activeNews = (namber)=>{
+//   const activDiv = document.getElementById('allActivN');
+//   activDiv.innerHTML = allNews(namber)
+// https://openapi.programming-hero.com/api/news/category/08
+// }
+// activeNews(08)
 const opneModals =async(id)=>{
 // console.log(id)
 const url1 = `https://openapi.programming-hero.com/api/news/${id}`
     const res2 = await fetch(url1);
     const data2 = await res2.json();
-    displayDetalInModals(data2);
-    console.log(data2.data[0])
+    displayDetalInModals(data2.data[0]);
+    // console.log(data2.data[0])
 
 }
+// add modales
 const displayDetalInModals = (details)=>{
-  // console.log(details)
+  console.log(details)
+const getModaltital = document.getElementById('exampleModalLabel')
 const getModalDiv = document.getElementById('addModal')
-const creatDetailDiv = document.createElement('div')
-creatDetailDiv.innerHTML = `
-<div class="modal fade" id="exampleModal"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">${details.title?details.title : 'tital not found'}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-        <div>
-        <img src="${details.author?details.author.img : 'no author found'}" alt="" class="rounded-circle img-fluid   small">
+getModaltital.innerHTML = ` ${details.title?details.title:'no tital '}`
+getModalDiv.innerHTML = `
+<img src="${details.author?details.author.img : 'no author found'}" alt="" class="rounded-circle img-fluid   small">
         <h3>${details.author.name?details.author.name : 'author name not found'}</h3>
-        </div>
-          <p>date : ${details.author['published_date']}</p>
-         
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
+        
+          <p>date : ${details.author['published_date']}
 `;
-getModalDiv.appendChild(creatDetailDiv)
+
 }
 
 
@@ -110,7 +102,10 @@ loadCategory()
 
 
 
-
-
-
+/*<img src="${details.author?details.author.img : 'no author found'}" alt="" class="rounded-circle img-fluid   small">
+        <h3>${details.author.name?details.author.name : 'author name not found'}</h3>
+        
+          <p>date : ${details.author['published_date']}</p>*/ 
+ 
+// const creatDetailDiv = document.createElement('div')
 
