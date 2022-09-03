@@ -20,6 +20,8 @@ const displayCategory =categorys=>{
 
 
 const allNews= async(categoryId)=>{
+  // start loader
+  spinnerToggle(true)
     // console.log(categoryId)
     const url1 = `https://openapi.programming-hero.com/api/news/category/${categoryId?categoryId:'no news found'}`
     const res = await fetch(url1);
@@ -64,8 +66,26 @@ const displayNews = (arrayDatas) =>{
         `
         myNewsContainer.appendChild(creatCardDiv)
     })
-    
+    // stop loder
+    spinnerToggle(false) 
 }
+// loading function
+const spinnerToggle =isloading=>{
+  const loderId = document.getElementById('loder')
+  if(isloading){
+    loderId.classList.remove('d-none')
+  }
+  else{
+    loderId.classList.add('d-none')
+  }
+}
+
+
+
+
+
+
+
 // const activeNews = (namber)=>{
 //   const activDiv = document.getElementById('allActivN');
 //   activDiv.innerHTML = allNews(namber)
