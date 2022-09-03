@@ -69,7 +69,7 @@ const url1 = `https://openapi.programming-hero.com/api/news/${id}`
     const res2 = await fetch(url1);
     const data2 = await res2.json();
     displayDetalInModals(data2);
-    console.log(data2)
+    console.log(data2.data[0])
 
 }
 const displayDetalInModals = (details)=>{
@@ -81,11 +81,16 @@ creatDetailDiv.innerHTML = `
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">${details.title?details.title : 'tital not found'}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>hi ,i am mahamuda ${details}</p>
+        <div>
+        <img src="${details.author?details.author.img : 'no author found'}" alt="" class="rounded-circle img-fluid   small">
+        <h3>${details.author.name?details.author.name : 'author name not found'}</h3>
+        </div>
+          <p>date : ${details.author['published_date']}</p>
+         
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
