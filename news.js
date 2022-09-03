@@ -27,12 +27,19 @@ const allNews= async(categoryId)=>{
     const res = await fetch(url1);
     const data = await res.json();
     displayNews(data.data);
-    getLength(data.data)
-    
+    getLength(data.data);
+    shortObject(data.data);
+}
+const shortObject= arrey=>{
+// console.log(arrey)
+arrey.sort((a, b) => {
+  return b.total_view - a.total_view;
+});
+console.log(arrey);
 }
 // category array length
 const getLength = (arrays)=>{
-  console.log(arrays)
+  // console.log(arrays)
 const myarreDiv = document.getElementById('arrayLength')
 
   // console.log(arrey)
