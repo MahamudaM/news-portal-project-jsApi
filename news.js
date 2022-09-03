@@ -27,8 +27,18 @@ const allNews= async(categoryId)=>{
     const res = await fetch(url1);
     const data = await res.json();
     displayNews(data.data);
-    // console.log(data.data)
+    getLength(data.data)
     
+}
+// category array length
+const getLength = (arrays)=>{
+  console.log(arrays)
+const myarreDiv = document.getElementById('arrayLength')
+
+  // console.log(arrey)
+  myarreDiv.innerHTML = `
+  ${arrays.length? arrays.length: "No"} item found in news catagore
+  `
 }
 
 const displayNews = (arrayDatas) =>{
