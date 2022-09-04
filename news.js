@@ -1,9 +1,15 @@
 //add news catagores
 const loadCategory = async()=>{
     const url = 'https://openapi.programming-hero.com/api/news/categories'
-    const res = await fetch(url);
-    const data = await res.json();
-    displayCategory(data.data.news_category);
+    try{
+      const res = await fetch(url);
+      const data = await res.json();
+      displayCategory(data.data.news_category);
+    }
+    catch(error){
+      console.log(error)
+    }
+    
 
 }
 const displayCategory =categorys=>{
@@ -24,19 +30,17 @@ const allNews= async(categoryId)=>{
   spinnerToggle(true)
     // console.log(categoryId)
     const url1 = `https://openapi.programming-hero.com/api/news/category/${categoryId?categoryId:'no news found'}`
-    const res = await fetch(url1);
-    const data = await res.json();
-    displayNews(data.data);
-    getLength(data.data);
-    shortObject(data.data);
+    try{
+      const res = await fetch(url1);
+      const data = await res.json();
+      getLength(data.data);
+      shortObject(data.data)
+    }
+    catch(error){
+      console.log(error);
+    }
 }
-const shortObject= arrey=>{
-// console.log(arrey)
-arrey.sort((a, b) => {
-  return b.total_view - a.total_view;
-});
-console.log(arrey);
-}
+
 // category array length
 const getLength = (arrays)=>{
   // console.log(arrays)
@@ -48,41 +52,57 @@ const myarreDiv = document.getElementById('arrayLength')
   `
 }
 
+
+const shortObject= arrey5=>{
+  // console.log(arrey5)
+  arrey5.sort((a, b) => {
+    return b.total_view - a.total_view;
+  });
+  // console.log(arrey5);
+  displayNews(arrey5);
+  }
+
 const displayNews = (arrayDatas) =>{
+ 
+ 
     // console.log(arrayDatas)
     const myNewsContainer = document.getElementById('allNewsContainer')
     myNewsContainer.innerHTML = ''
+   
     arrayDatas.forEach(singalData=>{
-        const creatCardDiv = document.createElement('div')
-        creatCardDiv.classList.add('card');
-        creatCardDiv.innerHTML = `
-        <div class="row g-0" >
-        <div class="col-md-4">
-          <img src="${singalData.thumbnail_url}" class="img-fluid rounded-start" alt="...">
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">${singalData.title}</h5>
-            <p class="card-text " >${singalData.details.slice(0,300)}</p>
-            <div class="card-text d-grid gap-2 d-flex  justify-content-evenly align-items-center">
-            <span class="text-muted"><img src="${singalData.author? singalData.author.img : 'no author found'}" alt="" class="rounded-circle img-fluid   small"> <p>${singalData.author.name? singalData.author.name :'author name not found'}</p></span> 
-            <div class = 'view'><span>view:${singalData.total_view? singalData.total_view :'view not found'}</span> </div>
-          
-            <button onclick='opneModals("${singalData._id}")' type="button" class="btn btn-primary   d-flex justify-content-md-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Details
-         </button>
-            </div>
-            <div class='modlaBtn'>
-            
-            </div>
 
-
+      const creatCardDiv = document.createElement('div')
+      creatCardDiv.classList.add('card');
+      creatCardDiv.innerHTML = `
+      <div class="row g-0" >
+      <div class="col-md-4">
+        <img src="${singalData.thumbnail_url}" class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">${singalData.title}</h5>
+          <p class="card-text " >${singalData.details.slice(0,300)+ '&hellip;'}</p>
+          <div class="card-text d-grid gap-2 d-flex  justify-content-evenly align-items-center">
+          <span ><img src="${singalData.author? singalData.author.img : 'no author found'}" alt="" class="rounded-circle img-fluid   small"> <h6>${singalData.author.name? singalData.author.name :'author name not found'}</h6></span> 
+          <div class = 'view'><h6>view:${singalData.total_view? singalData.total_view :' not found'}M</h6> </div>
+        
+          <button onclick='opneModals("${singalData._id}")' type="button" class="btn btn-primary   d-flex justify-content-md-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Details
+       </button>
           </div>
+          <div class='modlaBtn'>
+          
+          </div>
+
+
         </div>
       </div>
-        `
-        myNewsContainer.appendChild(creatCardDiv)
-    })
+    </div>
+      `
+      myNewsContainer.appendChild(creatCardDiv)
+  })
+    
+
     // stop loder
     spinnerToggle(false) 
 }
@@ -98,25 +118,19 @@ const spinnerToggle =isloading=>{
 }
 
 
-
-
-
-
-
-// const activeNews = (namber)=>{
-//   const activDiv = document.getElementById('allActivN');
-//   activDiv.innerHTML = allNews(namber)
-// https://openapi.programming-hero.com/api/news/category/08
-// }
-// activeNews(08)
 const opneModals =async(id)=>{
 // console.log(id)
 const url1 = `https://openapi.programming-hero.com/api/news/${id}`
-    const res2 = await fetch(url1);
+try{
+  const res2 = await fetch(url1);
     const data2 = await res2.json();
     displayDetalInModals(data2.data[0]);
     // console.log(data2.data[0])
-
+}
+catch(error){
+  console.log(error)
+}
+    
 }
 // add modales
 const displayDetalInModals = (details)=>{
@@ -126,7 +140,7 @@ const getModalDiv = document.getElementById('addModal')
 getModaltital.innerHTML = ` ${details.title?details.title:'no tital '}`
 getModalDiv.innerHTML = `
 <img src="${details.author?details.author.img : 'no author found'}" alt="" class="rounded-circle img-fluid   small">
-        <h3>${details.author.name?details.author.name : 'author name not found'}</h3>
+        <h3>Name : ${details.author.name?details.author.name : 'author name not found'}</h3>
         
           <p>date : ${details.author['published_date']}
 `;
@@ -134,15 +148,5 @@ getModalDiv.innerHTML = `
 }
 
 
-loadCategory()
-
-
-
-
-/*<img src="${details.author?details.author.img : 'no author found'}" alt="" class="rounded-circle img-fluid   small">
-        <h3>${details.author.name?details.author.name : 'author name not found'}</h3>
-        
-          <p>date : ${details.author['published_date']}</p>*/ 
- 
-// const creatDetailDiv = document.createElement('div')
-
+loadCategory();
+allNews('08')
